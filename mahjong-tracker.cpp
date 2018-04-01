@@ -32,9 +32,12 @@ int main( int argc, char * argv[] )
   bool countinue_game = true;
   while (countinue_game) {
     cout << "Game number: " << game_num << endl;
+
     string winner;
-    cout << "Enter winner's name: ";
-    getline(cin, winner);
+    while (players.count(winner) == 0) {
+      cout << "Enter winner's name: ";
+      getline(cin, winner);
+    }
 
     string type_of_win;
     cout << "Enter s for self-draw or d for discarder: ";
@@ -45,30 +48,41 @@ int main( int argc, char * argv[] )
     getline(cin, fan);
 
     if (type_of_win == "d") {
-      string discarder;
-      cout << "Enter discarder's name: ";
-      getline(cin, discarder);
 
-      players[winner] += points[stoi(fan)-1]*2;
-      std::map<std::string, int>::iterator it = players.begin();
-      while (it != players.end()) {
-    		std::string player = it->first;
-        if (player != winner) {
-          if (player == discarder) {
-            players[player] -= points[stoi(fan)-1];
-          } else {
-            players[player] -= points[stoi(fan)-1]/2;
+      string nine_card_penalty;
+      cout << "Was 9-cards shown (y/n)? ";
+      getline(cin, nine_card_penalty);
+
+      string discarder;
+      while (players.count(discarder) == 0) {
+        cout << "Enter discarder's name: ";
+        getline(cin, discarder);
+      }
+
+      players[winner] += points[stoi(fan)]*2;
+      if (nine_card_penalty == "y") {
+        players[discarder] -= points[stoi(fan)]*2;
+      } else {
+        std::map<std::string, int>::iterator it = players.begin();
+        while (it != players.end()) {
+      		std::string player = it->first;
+          if (player != winner) {
+            if (player == discarder) {
+              players[player] -= points[stoi(fan)];
+            } else {
+              players[player] -= points[stoi(fan)]/2;
+            }
           }
-        }
-        it++;
-    	}
+          it++;
+      	}
+      }
     } else {
-      players[winner] += points[stoi(fan)-1] * 3;
+      players[winner] += points[stoi(fan)] * 3;
       std::map<std::string, int>::iterator it = players.begin();
       while (it != players.end()) {
     		std::string player = it->first;
         if (player != winner) {
-          players[player] -= points[stoi(fan)-1];
+          players[player] -= points[stoi(fan)];
         }
         it++;
     	}
