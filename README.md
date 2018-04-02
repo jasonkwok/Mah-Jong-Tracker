@@ -11,11 +11,13 @@ Keep track of Mah-Jong points.
 ## Point System Used 
 Faan points | Base points
 --- | ---
+1 | 2
+2 | 4
 3 | 8
 4 | 16
-5 | 24
-6 | 32
-7 | 48
-8 | 64
-9 | 96
-10 | 128
+5 | 32
+6 | 48
+7 | 64
+8 | 96
+9 | 128
+10 | 256
